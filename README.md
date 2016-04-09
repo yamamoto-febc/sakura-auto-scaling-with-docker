@@ -56,13 +56,59 @@ GSLB(広域負荷分散)とDockerMachineを用いてスケーリングを行い�
 ## 実行手順
 
 1) GitHubからデモプログラムをクローン
+
+```bash
+git clone https://github.com/yamamoto-febc/sakura-auto-scaling-with-docker.git
+cd sakura-auto-scaling-with-docker.git
+```
+
 2) 設定ファイルの修正
    - さくらのクラウドAPIキーを設定
+
+```bash
+cp env.sample .env    # 設定ファイルひな形をコピー
+
+vi .env               # 設定ファイルを編集
+
+
+#==============================================================================
+# APIキー(アクセストーン、シークレット)を記入してください
+export SAKURACLOUD_ACCESS_TOKEN=your_access_token
+export SAKURACLOUD_ACCESS_TOKEN_SECRET=your_access_token_secret
+
+# 利用するリージョン(石狩第1、石狩第2、東京)を指定してください。
+export SAKURACLOUD_REGION=is1a/is1b/tk1a
+#==============================================================================
+```
+
+APIキー関連以外の設定項目は`settings.sh`に記載されています。
+必要に応じて`settings.sh`を編集してください。
+(基本的に変更しなくても動きます)
+
 3) 初回起動
    - Masterノード作成(初回起動時に自動で作成される)
    - GSLB作成(初回起動時に自動で作成される)
    - DNSへGSLBホスト名をCNAME登録
+
+```bash
+
+chmod +x auto_scaling.sh
+./auto_scaling.sh
+
+```
+
+
 4) 定期実行設定
+
+
+```bash
+
+crontab -e
+
+# 毎分実行する場合
+* * * * * /path/to/your/directory/auto_scaling.sh
+
+```
 
   - **TODO 詳細を追記する**
 

@@ -1,6 +1,7 @@
 # sakura-auto-scaling-with-docker
 さくらのクラウドでのDockerを用いたAutoScalingのサンプルです
 
+**注意：現在開発中です。まだ動かない可能性が高いです**
 
 # 概要
 

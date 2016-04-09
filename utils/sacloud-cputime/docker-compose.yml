@@ -3,8 +3,6 @@ services:
   sacloud-cputime:
     build:
       context: .
-      args:
-        quiet: "True"
     environment:
       - SACLOUD_ACCESS_TOKEN
       - SACLOUD_ACCESS_TOKEN_SECRET

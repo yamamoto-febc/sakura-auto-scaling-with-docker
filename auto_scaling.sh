@@ -75,6 +75,12 @@ setupMasterNode(){
     if [ -z $MASTER_NODE ]; then
       $DOCKER_MACHINE create -d sakuracloud $DOCKER_MACHINE_SCALEOUT_OPTIONS $__MASTER_MACHINE ; \
       (eval $($DOCKER_MACHINE env $__MASTER_MACHINE);$DOCKER_COMPOSE -f $WEB_APP_COMPOSE_PATH/docker-compose.yml  up -d ) ;
+
+      #Masterノード作成後は一旦正常終了とする(初回のメトリクス収集でスケールアウトしてしまうのを防ぐため)
+      echo "******************************************************************"
+      echo "MasterNode created. Please re-run this script after a few minutes."
+      echo "******************************************************************"
+      exit 0
     fi
 
     export SAKURACLOUD_MASTER_NODE_ID=`$DOCKER_MACHINE inspect -f "{{.Driver.ID}}" $__MASTER_MACHINE`

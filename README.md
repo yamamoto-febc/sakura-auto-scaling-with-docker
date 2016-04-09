@@ -33,7 +33,9 @@ GSLB(広域負荷分散)とDockerMachineを用いてスケーリングを行い�
 ## AutoScalingの流れ
 
 1) 手元のPCからさくらのクラウドAPIでCPU負荷を測定
+
 2) 閾値と比較しスケールイン/アウトを判断
+
 3) docker-machineを用いてスケールイン/アウト実施
 
 :point:

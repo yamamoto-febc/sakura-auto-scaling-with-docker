@@ -136,6 +136,14 @@ if [ -e "$CURRENT_DIR/.env" ]; then
   source "$CURRENT_DIR/.env"
 fi
 
+#多重起動防止
+_process=`basename $0`
+_pcnt=`pgrep -fo ${_process} | wc -l`
+if [ ${_pcnt} -ge 1 ]; then
+  echo "Another process still running."
+  exit 1
+fi
+
 # 入力検証
 validateSettings
 
@@ -166,7 +174,7 @@ ls "$MACHINE_LIST_INFO_DIR" | \
 xargs -L1 -I'{}' /bin/bash -c '( \
     . $MACHINE_LIST_INFO_DIR/{} ; \
     eval $($DOCKER_MACHINE env $__MASTER_MACHINE); \
-    $DOCKER_COMPOSE -f $CALC_CPU_DOCKER_COMPOSE_PATH/docker-compose.yml run sacloud-cputime {})' | \
+    $DOCKER_COMPOSE -f $CALC_CPU_DOCKER_COMPOSE_PATH/docker-compose.yml run --rm sacloud-cputime {})' | \
 awk '{sum+=$1}END{print sum}' )
 
 #**************

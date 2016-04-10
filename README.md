@@ -59,7 +59,7 @@ GSLB(広域負荷分散)とDockerMachineを用いてスケーリングを行い�
 
 ```bash
 git clone https://github.com/yamamoto-febc/sakura-auto-scaling-with-docker.git
-cd sakura-auto-scaling-with-docker.git
+cd sakura-auto-scaling-with-docker
 ```
 
 2) 設定ファイルの修正

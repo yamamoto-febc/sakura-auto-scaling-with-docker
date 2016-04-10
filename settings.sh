@@ -112,3 +112,10 @@ DOCKER_COMPOSE=/usr/local/bin/docker-compose
 # Description: docker-machineコマンド
 #******************************************************************************
 DOCKER_MACHINE=/usr/local/bin/docker-machine
+
+#
+# crontabでの自動実行用
+# docker-machine-sakuracloudを/usr/local/bin以外にインストールした場合は
+# ここも変更してください。
+#
+export PATH=$PATH:/usr/local/bin

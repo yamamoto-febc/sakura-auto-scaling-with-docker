@@ -1,7 +1,11 @@
 # sakura-auto-scaling-with-docker
-さくらのクラウドでのDockerを用いたAutoScalingのサンプルです
+さくらのクラウドでのDockerを用いたAutoScalingのサンプルです。
+以下の記事を合わせて参照ください。
+
+[Qiita:さくらのクラウドでAuto Scaling ~ Docker活用編 ~](http://qiita.com/yamamoto-febc/items/9c21f1efac9ebc6ae30b)
 
 ## 注意
+
 デモプログラムの実行により、課金対象のリソースが作成されます。その点ご留意の上、実行していただくようにお願いいたします。
 
 # 概要

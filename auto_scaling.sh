@@ -115,6 +115,15 @@ createMachineInfoFiles() {
   $DOCKER_MACHINE ls -q --filter "name=$__SCALE_MACHINE_NAME_PATTERN*" | xargs -L1 -I{} /bin/bash -c 'createMachineInfoFile {}'
 }
 
+getMachineCpuTime() {
+      TARGET=$1
+      . $MACHINE_LIST_INFO_DIR/$TARGET > /dev/null 2>&1
+      eval $($DOCKER_MACHINE env $__MASTER_MACHINE) > /dev/null 2>&1
+      $DOCKER_COMPOSE -f $CALC_CPU_DOCKER_COMPOSE_PATH/docker-compose.yml build > /dev/null 2>&1
+      $DOCKER_COMPOSE -f $CALC_CPU_DOCKER_COMPOSE_PATH/docker-compose.yml run --rm sacloud-cputime $TARGET
+}
+export -f getMachineCpuTime
+
 scaleIn(){
   local MACHINE_COUNT=$1
   $DOCKER_MACHINE rm -f "$__SCALE_MACHINE_NAME_PATTERN$MACHINE_COUNT"
@@ -169,13 +178,7 @@ if [ $CURRENT_MACHINE_COUNT -le 0 ] ; then
 fi
 
 #各マシンのCPU時間を取得して合計
-TOTAL_CPU_TIME=$( \
-ls "$MACHINE_LIST_INFO_DIR" | \
-xargs -L1 -I'{}' /bin/bash -c '( \
-    . $MACHINE_LIST_INFO_DIR/{} ; \
-    eval $($DOCKER_MACHINE env $__MASTER_MACHINE); \
-    $DOCKER_COMPOSE -f $CALC_CPU_DOCKER_COMPOSE_PATH/docker-compose.yml run --rm sacloud-cputime {})' | \
-awk '{sum+=$1}END{print sum}' )
+TOTAL_CPU_TIME=$( ls "$MACHINE_LIST_INFO_DIR" | xargs -L1 -I'{}' /bin/bash -c 'getMachineCpuTime {}' | awk '{sum+=$1}END{print sum}' )
 
 #**************
 # 判定
